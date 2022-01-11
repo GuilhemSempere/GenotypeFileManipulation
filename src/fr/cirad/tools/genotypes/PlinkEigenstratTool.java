@@ -22,7 +22,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.LineNumberReader;
 import java.net.URL;
 import java.util.ArrayList;
@@ -269,32 +268,32 @@ public class PlinkEigenstratTool {
 		return sIndividual;
 	}
 	
-	static public String /*3-char string: nucleotide1+space+nucleotide2*/[] readGenotypesFromPlinkPedLine(String sPlinkPedLine, LinkedHashSet<Integer> redundantVariantIndexes, String[] variants) throws WrongNumberArgsException
-	{
-		String[] result = new String[variants.length];
-		
-		int nFoundSpaceCount = 0, nSpacePos = -1;
-		while (nFoundSpaceCount < 6)
-		{
-			nSpacePos = sPlinkPedLine.indexOf(" ", nSpacePos + 1);
-			nFoundSpaceCount++;
-		}
-		int nCurrentPos = nSpacePos - 3, nCurrentVariantIndex = -1;
-		int nTrimmedPedLength = sPlinkPedLine.trim().length();
-		while (nCurrentPos + 4 < nTrimmedPedLength);
-		{
-			nCurrentPos += 4;
-			if (!redundantVariantIndexes.contains(nCurrentVariantIndex))	// otherwise it's a duplicate so we ignore it
-			{
-				nCurrentVariantIndex++;
-				if (variants.length + redundantVariantIndexes.size() <= nCurrentVariantIndex)
-					throw new WrongNumberArgsException("PED file contains more genotypes than the number of variants defined in MAP file");
+    static public String /*3-char string: nucleotide1+space+nucleotide2*/[] readGenotypesFromPlinkPedLine(String sPlinkPedLine, LinkedHashSet<Integer> redundantVariantIndexes, String[] variants) throws WrongNumberArgsException
+    {
+        String[] result = new String[variants.length];
+        
+        int nFoundSpaceCount = 0, nSpacePos = -1;
+        while (nFoundSpaceCount < 6)
+        {
+            nSpacePos = sPlinkPedLine.indexOf(" ", nSpacePos + 1);
+            nFoundSpaceCount++;
+        }
+        int nCurrentPos = nSpacePos - 3, nCurrentVariantIndex = -1;
+        int nTrimmedPedLength = sPlinkPedLine.trim().length();
+        while (nCurrentPos + 4 < nTrimmedPedLength)
+        {
+            nCurrentPos += 4;
+            if (!redundantVariantIndexes.contains(nCurrentVariantIndex))    // otherwise it's a duplicate so we ignore it
+            {
+                nCurrentVariantIndex++;
+                if (variants.length + redundantVariantIndexes.size() <= nCurrentVariantIndex)
+                    throw new WrongNumberArgsException("PED file contains more genotypes than the number of variants defined in MAP file");
 
-				result[nCurrentVariantIndex] = sPlinkPedLine.substring(nCurrentPos, nCurrentPos + 3);
-			}
-		}
-		return result;
-	}
+                result[nCurrentVariantIndex] = sPlinkPedLine.substring(nCurrentPos, nCurrentPos + 3);
+            }
+        }
+        return result;
+    }
 		
 	static public void logProgress(File f, String s) throws IOException
 	{

@@ -101,32 +101,33 @@ public class PlinkEigenstratTool {
 		LinkedHashMap<String, String> variantsInMapFile = new LinkedHashMap<String, String>();
 		Scanner userMapScanner = new Scanner(mapFileUrl.openStream());
 		int nCurrentLine = -1;
-		while (userMapScanner.hasNextLine())
-		{
+		while (userMapScanner.hasNextLine()) {
 			nCurrentLine++;
-			String sLine = userMapScanner.nextLine().replaceAll("\t", " ");
-			if (sLine.trim().length() == 0)
+			String sLine = userMapScanner.nextLine().replaceAll("\t", " ").trim();
+			if (sLine.isEmpty())
 			{
 				errors.append("\n- Found empty line in .map file at position " + nCurrentLine);
 				continue;
 			}
 
-			StringTokenizer st = new StringTokenizer(sLine, " ");
-			String sSeq = st.nextToken();
-			String sVariant = st.nextToken();
-			st.nextToken(); // skip Genetic distance in morgans
-			String sBpPos = st.nextToken();
+			String[] splitString = sLine.split(" ");
+			String sSeq = splitString[0], sVariant = splitString[1], /* skip Genetic distance in morgans */ sBpPos = splitString[3];
+			if (sVariant.isEmpty() || ".".equals(sVariant))
+			    errors.append("\n- Missing variant ID in map file at position " + nCurrentLine);
 			if (variantsInMapFile.containsKey(sVariant))
 			{
 				LOG.warn("Variant " + sVariant + " is defined several times in MAP file");
 				redundantVariantIndexesToFill.add(nCurrentLine);
 			}
 			variantsInMapFile.put(sVariant, sSeq + sSequenceAndPositionSeparator + sBpPos);
+			
+			if (errors.length() > 0)
+			    break;
 		}
 		
 		userMapScanner.close();
 		if (errors.length() > 0)
-			throw new Exception("Uploaded data is invalid: \n" + errors.toString());
+			throw new Exception("Uploaded data is invalid:" + errors.toString());
 
 		return variantsInMapFile;
 	}

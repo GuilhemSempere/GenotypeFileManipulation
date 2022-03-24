@@ -24,6 +24,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,11 +34,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 import com.sun.org.apache.xpath.internal.functions.WrongNumberArgsException;
@@ -300,7 +299,7 @@ public class PlinkEigenstratTool {
 	{
 		LOG.debug(s);
 		if (f != null)
-			FileUtils.writeStringToFile(f, s);
+			Files.write(f.toPath(), s.getBytes());
 	}
 	
 	static public File unzipSingleFileIfNeeded(File zippedFile)	throws Exception

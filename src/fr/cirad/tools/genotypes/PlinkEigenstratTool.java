@@ -39,9 +39,14 @@ import java.util.zip.ZipInputStream;
 
 import org.apache.log4j.Logger;
 
-import com.sun.org.apache.xpath.internal.functions.WrongNumberArgsException;
-
 public class PlinkEigenstratTool {
+	
+	@SuppressWarnings("serial")
+	static private class WrongGenotypeCountException extends Exception {
+		WrongGenotypeCountException(String msg) {
+			super(msg);
+		}
+	}
 	
 	private static final Logger LOG = Logger.getLogger(PlinkEigenstratTool.class);
 		
@@ -216,7 +221,7 @@ public class PlinkEigenstratTool {
 						individualToGenotypeMap.put(sIndividual, eigenstratGtCodes.get(gtCode));
 				}
 			}
-			catch (WrongNumberArgsException wnae)
+			catch (WrongGenotypeCountException wnae)
 			{
 				errors.append("\n- " + wnae.getMessage());
 				break;
@@ -268,7 +273,7 @@ public class PlinkEigenstratTool {
 		return sIndividual;
 	}
 	
-    static public String /*3-char string: nucleotide1+space+nucleotide2*/[] readGenotypesFromPlinkPedLine(String sPlinkPedLine, LinkedHashSet<Integer> redundantVariantIndexes, String[] variants) throws WrongNumberArgsException
+    static public String /*3-char string: nucleotide1+space+nucleotide2*/[] readGenotypesFromPlinkPedLine(String sPlinkPedLine, LinkedHashSet<Integer> redundantVariantIndexes, String[] variants) throws WrongGenotypeCountException
     {
         String[] result = new String[variants.length];
         
@@ -287,7 +292,7 @@ public class PlinkEigenstratTool {
             {
                 nCurrentVariantIndex++;
                 if (variants.length + redundantVariantIndexes.size() <= nCurrentVariantIndex)
-                    throw new WrongNumberArgsException("PED file contains more genotypes than the number of variants defined in MAP file");
+                    throw new WrongGenotypeCountException("PED file contains more genotypes than the number of variants defined in MAP file");
 
                 result[nCurrentVariantIndex] = sPlinkPedLine.substring(nCurrentPos, nCurrentPos + 3);
             }

@@ -37,7 +37,8 @@ import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PlinkEigenstratTool {
 	
@@ -47,9 +48,9 @@ public class PlinkEigenstratTool {
 			super(msg);
 		}
 	}
-	
-	private static final Logger LOG = Logger.getLogger(PlinkEigenstratTool.class);
-		
+
+	private static final Logger LOG = LoggerFactory.getLogger(PlinkEigenstratTool.class);
+
 	static public HashMap<String /*preferred Illumina ID*/, List<String> /*Illumina synonyms*/> readVariantSynonyms(File variantSynonymFile) throws FileNotFoundException
 	{
 		HashMap<String, List<String>> variantSynonyms = new HashMap<String, List<String>>();

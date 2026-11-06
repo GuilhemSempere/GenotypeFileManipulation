@@ -43,31 +43,31 @@
   	<repositories>
 		<repository>
 			<id>repo1</id>
-			<url>http://repo1.maven.org/maven2/</url>
+			<url>https://repo1.maven.org/maven2/</url>
 		</repository>
 		<repository>
 			<id>spring release</id>
-			<url>http://repo.spring.io/release</url>
+			<url>https://repo.spring.io/release</url>
 		</repository>
 		<repository>
 			<id>spring-snapshot</id>
-			<url>http://repo.springsource.org/libs-snapshot</url>
+			<url>https://repo.spring.io/libs-snapshot</url>
 		</repository>
 		<repository>
 			<id>ibiblio</id>
-			<url>http://mirrors.ibiblio.org/pub/mirrors/maven2</url>
+			<url>https://mirrors.ibiblio.org/pub/mirrors/maven2</url>
 		</repository>
 		<repository>
 			<id>FZI Repository</id>
-			<url>http://mavenrepo.fzi.de/semweb4j.org/repo/</url>
+			<url>https://mavenrepo.fzi.de/semweb4j.org/repo/</url>
 		</repository>
 		<repository>
 			<id>java.net-m2</id>
-			<url>http://download.java.net/maven/2</url>
+			<url>https://download.java.net/maven/2</url>
 		</repository>
 		<repository>
 			<id>xerial</id>
-			<url>http://maven.xerial.org/repository/artifact</url>
+			<url>https://maven.xerial.org/repository/artifact</url>
 		</repository>
 	</repositories>
 
